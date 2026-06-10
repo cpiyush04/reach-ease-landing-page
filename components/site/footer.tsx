@@ -60,7 +60,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5">
               <li>
                 <a
-                  href="mailto:hello@reachatease.com"
+                  href="mailto:reach.ease.team@gmail.com"
                   className="inline-flex items-center gap-2 text-sm text-foreground/80 transition-colors hover:text-foreground"
                 >
                   <Mail className="h-4 w-4 text-cyan" />

@@ -2,7 +2,7 @@
 
 export async function submitToWaitlist(data: { email: string; name?: string; position?: string }) {
   // ⚠️ REPLACE THIS URL WITH THE ONE YOU COPIED FROM GOOGLE APPS SCRIPT
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyax1snhyTS9u_UiDzpi167cJEe3sRGy6AdHCmSSgSPLOHv8MbuoFSfnwaCOCrZjZ1n/exec'
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVm9rnSSufFZW_uA0bzr0ov5eM56qYnqFEDTUa8-Ixe-a1PuKuhI-tPwBnKGt3WtE0/exec'
 
   try {
     const response = await fetch(GOOGLE_SCRIPT_URL, {
