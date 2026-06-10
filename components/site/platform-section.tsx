@@ -167,14 +167,17 @@ export function PlatformSection() {
             title="Outreach Automation"
             desc="Engage the right people with personalized, context-aware messages at scale."
           >
-            <div className="mt-auto flex items-center gap-2 pt-6">
+            <div className="mt-auto flex flex-wrap items-center gap-2 pt-6">
               {['Drafted', 'Personalized', 'Scheduled', 'Sent'].map((s, i) => (
-                <div key={s} className="flex flex-1 items-center gap-2">
+                <div
+                  key={s}
+                  className="flex items-center gap-2 sm:flex-1"
+                >
                   <span className="flex h-7 items-center rounded-full bg-cyan/10 px-3 text-[11px] text-cyan">
                     {s}
                   </span>
                   {i < 3 && (
-                    <span className="h-px flex-1 bg-gradient-to-r from-cyan/50 to-transparent" />
+                    <span className="hidden h-px flex-1 bg-gradient-to-r from-cyan/50 to-transparent sm:block" />
                   )}
                 </div>
               ))}
