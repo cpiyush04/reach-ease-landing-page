@@ -50,7 +50,7 @@ export function WorkflowSection() {
         {/* connector line - desktop */}
         <div className="relative grid grid-cols-1 gap-4 md:grid-cols-7 md:gap-2">
           {steps.map((s, i) => (
-            <div key={s.label} className="relative flex md:flex-col md:items-center">
+            <div key={s.label} className="relative flex flex-col items-center md:items-center">
               <Reveal delay={i * 0.1} className="w-full">
                 <div className="group flex items-center gap-4 rounded-2xl border border-border bg-card/40 p-4 transition-colors hover:border-cyan/40 md:flex-col md:gap-3 md:p-4 md:text-center">
                   <span
@@ -71,8 +71,8 @@ export function WorkflowSection() {
 
               {/* arrow between - mobile vertical */}
               {i < steps.length - 1 && (
-                <div className="flex justify-center py-1 md:hidden">
-                  <ArrowRight className="h-4 w-4 rotate-90 text-muted-foreground" />
+                <div className="flex w-full justify-center py-3 md:hidden">
+                  <ArrowRight className="h-5 w-5 rotate-90 text-muted-foreground" />
                 </div>
               )}
 
