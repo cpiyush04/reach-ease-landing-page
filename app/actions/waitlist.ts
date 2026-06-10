@@ -1,28 +1,45 @@
 'use server'
+import { headers } from 'next/headers'
 
-export async function submitToWaitlist(data: { email: string; name?: string; position?: string }) {
-  // ⚠️ REPLACE THIS URL WITH THE ONE YOU COPIED FROM GOOGLE APPS SCRIPT
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVPQXHDhwuhBfxc7nGGwLWR9kos4pbg0w5pMCyUDk1lVJSQPVFIXoepT1nOYb5yp42/exec'
+const recentSubmissions = new Map<string, number>();
+
+export async function submitToWaitlist(data: {
+  email: string;
+  name?: string;
+  position?: string;
+}) {
+  const ip = (await headers()).get('x-forwarded-for') ?? 'unknown';
+  if (Date.now() - (recentSubmissions.get(ip) ?? 0) < 10_000) {
+    return { error: 'Too many requests. Please wait a moment.' };
+  }
+  recentSubmissions.set(ip, Date.now());
+
+  const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL;
+  if (!GOOGLE_SCRIPT_URL) throw new Error('Missing GOOGLE_SCRIPT_URL env var');
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
 
   try {
     const response = await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
-      // Using text/plain prevents CORS preflight errors with Google Scripts
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8',
-      },
-      body: JSON.stringify(data),
-    })
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        ...data,
+        secret: process.env.WAITLIST_SECRET,
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
 
-    const result = await response.json()
+    const result = await response.json();
+    return result.status === 'success'
+      ? { success: true }
+      : { error: 'Failed to join waitlist' };
 
-    if (result.status === 'success') {
-      return { success: true }
-    } else {
-      return { error: result.message || 'Failed to join waitlist' }
-    }
   } catch (error) {
-    console.error('Waitlist submission error:', error)
-    return { error: 'An unexpected error occurred. Please try again.' }
+    clearTimeout(timeout);
+    console.error('Waitlist error:', error);
+    return { error: 'An unexpected error occurred. Please try again.' };
   }
 }
