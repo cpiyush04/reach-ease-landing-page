@@ -89,11 +89,11 @@ export function HeroDashboard() {
                 >
                   {s.score}
                 </span>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="text-[11px] font-medium text-foreground/90">
                     {s.handle}
                   </p>
-                  <p className="truncate text-[11px] text-muted-foreground">
+                  <p className="whitespace-normal break-words text-[11px] leading-snug text-muted-foreground">
                     {s.text}
                   </p>
                 </div>
